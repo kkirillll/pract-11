@@ -1,0 +1,80 @@
+using System;
+namespace zad4;
+
+public class Player
+{
+    private int level;
+    private int health;
+    public int Level
+    {
+        get { return level; }
+        set
+        {
+            if (value < 1 || value > 100)
+            {
+                Console.WriteLine("Уровень должен быть от 1 до 100!");
+            }
+            else
+            {
+                level = value;
+            }
+        }
+    }
+    public int Health
+    {
+        get { return health; }
+        set
+        {
+            if (value < 0)
+                health = 0;
+            else if (value > 100)
+                health = 100;
+            else
+                health = value;
+        }
+    }
+    public string Name { get; init; }
+    public bool IsAlive => Health > 0;
+    public Player(string name, int level, int health)
+    {
+        Name = name;
+        Level = level;
+        Health = health;
+    }
+    public void TakeDamage(int damage)
+    {
+        if (damage > 0)
+        {
+            Health -= damage;
+            Console.WriteLine($"Игрок: {Name}, уровень: {Level}, здоровье: {Health}, жив: {(IsAlive ? "да" : "нет")}");
+        }
+    }
+    public void DisplayStatus()
+    {
+        Console.WriteLine($"Игрок: {Name}, уровень: {Level}, здоровье: {Health}, жив: {(IsAlive ? "да" : "нет")}");
+    }
+}
+public class Program
+{
+    public static void Main()
+    {
+        Player player = new Player("Alex", 5, 70);
+
+        Console.WriteLine("=== Начальный статус ===");
+        player.DisplayStatus();
+
+        Console.WriteLine("\n=== Нанесение урона ===");
+        player.TakeDamage(30);
+        player.TakeDamage(40);
+        player.TakeDamage(10); 
+
+        Console.WriteLine("\n=== Попытка установить уровень 0 ===");
+        player.Level = 0;
+
+        Console.WriteLine("\n=== Попытка установить уровень 150 ===");
+        player.Level = 150;
+
+        Console.WriteLine("\n=== Финальный статус ===");
+        player.DisplayStatus();
+    }
+}
