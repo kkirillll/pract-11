@@ -1,0 +1,60 @@
+using System;
+namespace zad2;
+public class Phone
+{
+    private int battery;
+    public int BatteryLevel
+    {
+        get { return battery; }
+        set
+        {
+            if (value < 0)
+            {
+                battery = 0;
+                Console.WriteLine("Заряд не может быть отрицательным!");
+            }
+            else if (value > 100)
+            {
+                battery = 100;
+                Console.WriteLine("Заряд не может превышать 100!");
+            }
+            else
+            {
+                battery = value;
+            }
+        }
+    }
+    public string Brand { get; init; }
+    public Phone(string brand, int initialCharge)
+    {
+        Brand = brand;
+        BatteryLevel = initialCharge;
+    }
+    public void Use()
+    {
+        if (battery > 0)
+        {
+            BatteryLevel -= 10;
+            Console.WriteLine($"{Brand}: заряд {BatteryLevel}%");
+        }
+        else
+        {
+            Console.WriteLine($"{Brand}: батарея разряжена!");
+        }
+    }
+}
+public class Program
+{
+    public static void Main()
+    {
+        Phone phone = new Phone("Samsung", 90);
+        Console.WriteLine("=== Использование телефона ===");
+        phone.Use();
+        phone.Use();
+        phone.Use();
+
+        Console.WriteLine("\n=== Попытка установить заряд 150% ===");
+        phone.BatteryLevel = 150;
+        Console.WriteLine($"Текущий заряд: {phone.BatteryLevel}%");
+    }
+}
