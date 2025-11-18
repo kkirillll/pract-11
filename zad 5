@@ -1,0 +1,73 @@
+using System;
+namespace zad5;
+public class Product
+{
+    private decimal price;
+    private decimal discount;
+    public decimal Price
+    {
+        get { return price; }
+        set
+        {
+            if (value < 0)
+            {
+                Console.WriteLine("Цена не может быть отрицательной!");
+            }
+            else
+            {
+                price = value;
+            }
+        }
+    }
+    public decimal Discount
+    {
+        get { return discount; }
+        set
+        {
+            if (value < 0)
+                discount = 0;
+            else if (value > 100)
+                discount = 100;
+            else
+                discount = value;
+        }
+    }
+    public string Name { get; set; } = "Без названия";
+    public decimal FinalPrice => Price * (1 - Discount / 100);
+    public Product(decimal price, decimal discount)
+    {
+        Price = price;
+        Discount = discount;
+    }
+    public void Show()
+    {
+        Console.WriteLine($"{Name}: {FinalPrice:F0} (скидка {Discount}%)");
+    }
+}
+public class Program
+{
+    public static void Main()
+    {
+        Console.WriteLine("=== Создание товара ===");
+        Product product = new Product(1000, 20);
+        product.Name = "Ноутбук";
+        product.Show();
+
+        Console.WriteLine("\n=== Изменение скидки ===");
+        product.Discount = 10;
+        product.Show();
+
+        Console.WriteLine("\n=== Попытка установить отрицательную цену ===");
+        product.Price = -500;
+        product.Show();
+
+        Console.WriteLine("\n=== Тестирование граничных значений скидки ===");
+        product.Discount = 150; 
+        product.Show();
+
+        product.Discount = -50; 
+        product.Show();
+
+        Console.ReadLine();
+    }
+}
